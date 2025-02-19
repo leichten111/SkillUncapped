@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>SkillUncapped</title>
+        <style>
+            .container {
+                display: flex;
+            }
+            .video-container {
+                flex: 2;
+            }
+            .tutorial-container {
+                flex: 1;
+                margin-left: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="video-container">
+                <label>Playlist: </label>
+                <select id="playlist" onchange="updateUrls()">
+                    <option value="">Select A Playlist</option>
+                    <option value="playlist1">Become An Aim God!</option>
+                    <option value="playlist2">Master Calm Aim</option>
+                    <option value="playlist3">The Spider Method</option>
+                    <option value="playlist4">Unlock Wallhacks</option>
+                    <option value="playlist5">Move Like A God</option>
+                    <option value="playlist6">Iron To Diamond Challange</option>
+                    <option value="playlist7">Road To Diamond</option>
+                    <option value="playlist8">Cypher Master In Minutes</option>
+                    <option value="playlist9">Clove Master In Minutes</option>
+                    <option value="playlist10">Viper Master In Minutes</option>
+                    <option value="playlist11">Raze Master In Minutes</option>
+                    <option value="playlist12">Iso Master In Minutes</option>
+                    <option value="playlist13">Reyna Master In Minutes</option>
+                    <option value="playlist14">Skye Master In Minutes</option>
+                    <option value="playlist15">Omen Master In Minutes</option>
+                    <option value="playlist16">Killjoy Master In Minutes</option>
+                    <option value="playlist17">Gekko Master In Minutes</option>
+                    <option value="playlist18">Brimstone Master In Minutes</option>
+                    <option value="playlist19">Harbor Master In Minutes</option>
+                    <option value="playlist20">Kay/O Master In Minutes</option>
+                    <option value="playlist21">Deadlock Master In Minutes</option>
+                    <option value="playlist22">Ultimate Jett Course</option>
+                    <option value="playlist23">Master Rotations</option>
+                </select>
+                <br>
+                <label>URL: </label>
+                <select id="url" style="width: 300px;">
+                  </select>  <option value="">Select A Video Above</option>
+                </select>
+                <br>
+                <label>Or enter URL: </label>
+                <input type="text" id="customUrl" style="width: 300px;">
+                <button style="width: 80px;" onclick="stream()">Stream</button>
+                <button style="width: 80px;" onclick="prevUrl()">Back</button>
+                <button id="nextButton" style="width: 80px;" onclick="nextUrl()">Next</button>
+                <label style="display: block;" id="status"></label>
+                <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+                <video style="display: block; margin-top: 10px;" height="720" width="1280" id="video" controls autoplay crossorigin="anonymous"></video>
+            </div>
+            <div class="tutorial-container">
+                <h2>How to Use</h2>
+                <p>1. Select a playlist from the dropdown menu.</p>
+                <p>2. Choose a video from the second dropdown menu or enter a Skill capped url without the letters behind the last /.</p>
+                <p>3. Click the "Stream" button to start streaming the video.</p>
+                <p>4. Use the "Next" button to move to the next video in the playlist.</p>
+                <p>5. Use the "Back" button to move to the previous video in the playlist.</p>
+                <p>If you encounter any issues, make sure you are using a modern browser like Chrome.</p>
+            </div>
+        </div>
+        
+        <script>
+            var hls = null;
+
+            if (Hls.isSupported()) {
+                var hlsjsConfig = {
+                        "maxBufferSize": 0,
+                        "maxBufferLength": 30,
+                        "startPosition": 0
+                }
+                hls = new Hls(hlsjsConfig);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                        video.play();
+                });
+            }
+
+            const playlists = {
+                playlist1: [
+                    { name: "Finding Your Sensitivity", url: "https://www.skill-capped.com/valorant/browse/course/pmzfv50ps7" },
+                    { name: "How To Make Aiming Easier", url: "https://www.skill-capped.com/valorant/browse/course/wck5mkm206" },
+                    { name: "How To Make Aiming Easier (In Game Examples)", url: "https://www.skill-capped.com/valorant/browse/course/b8y3c9jt4x" },
+                    { name: "Crosshair Placement", url: "https://www.skill-capped.com/valorant/browse/course/7505p8pf7l" },
+                    { name: "Crosshair Placement (In Game Examples)", url: "https://www.skill-capped.com/valorant/browse/course/4t0xfb887h" },
+                    { name: "Activity (Clearing Angles)", url: "https://www.skill-capped.com/valorant/browse/course/qtdkt2ll0w" },
+                    { name: "Gamesense And Awareness", url: "https://www.skill-capped.com/valorant/browse/course/w9bzlh0g1p" },
+                    { name: "Gamesense And Awareness (In Game Examples)", url: "https://www.skill-capped.com/valorant/browse/course/llq9kjhx66" },
+                    { name: "Utility And Positioning", url: "https://www.skill-capped.com/valorant/browse/course/0yc9q78kgf" },
+                    { name: "Survive Longer In Fights", url: "https://www.skill-capped.com/valorant/browse/course/vmt3x40gby" },
+                    { name: "Use Utility To Win Gun Fights", url: "https://www.skill-capped.com/valorant/browse/course/mpsp5vjc51" },
+                    { name: "Use Utility To Win Gun Fights (In Game Examples)", url: "https://www.skill-capped.com/valorant/browse/course/9ps3gk7h7g" },
+                    { name: "How To Get More Multikills", url: "https://www.skill-capped.com/valorant/browse/course/gvg6r7hk2h" },
+                    { name: "Staying One Step Ahead", url: "https://www.skill-capped.com/valorant/browse/course/7p55r88tzb" },
+                    { name: "Activity (How To Get More Multikills)", url: "https://www.skill-capped.com/valorant/browse/course/d2jl5fg3wq" },
+                    { name: "Beginner Aim Routines", url: "https://www.skill-capped.com/valorant/browse/course/pg28glm7nd" },
+                    { name: "Activity (Practicing Your Movement)", url: "https://www.skill-capped.com/valorant/browse/course/3kbw5gbpcy" },
+                    { name: "Counter Strafing Practice", url: "https://www.skill-capped.com/valorant/browse/course/93fj69d7r6" },
+                    { name: "Utility and Communication (In Game Examples)", url: "https://www.skill-capped.com/valorant/browse/course/6sbd2tlgz7" },
+                    { name: "Activity (Utility and Positioning)", url: "https://www.skill-capped.com/valorant/browse/course/gttyl2cws3" },
+                    { name: "Activity (Recoil Control)", url: "https://www.skill-capped.com/valorant/browse/course/wx9rcp79wx" }
+                ],
+                playlist2: [
+                { name: "What Is Calm Aim?", url: "https://www.skill-capped.com/valorant/browse/course/k3fpn92dh9" },
+                { name: "What is Tension Management?", url: "https://www.skill-capped.com/valorant/browse/course/vxyd5xqqg9" },
+                { name: "Shot Confirmation And Movement Reading", url: "https://www.skill-capped.com/valorant/browse/course/p8mpkvgrzf" },
+                { name: "What Mouse Grip Should I Use?", url: "https://www.skill-capped.com/valorant/browse/course/j9r2zhd4pm" },
+                { name: "How To Adjust Your Sensitivity Correctly", url: "https://www.skill-capped.com/valorant/browse/course/5n8kqhhztd" },
+                { name: "How To Use Aimtrainers", url: "https://www.skill-capped.com/valorant/browse/course/60kfw5nc3c" },
+                { name: "Use This Aim Routine!", url: "https://www.skill-capped.com/valorant/browse/course/9ysfrk66wt" }
+                ],
+                playlist3: [
+                    { name: "What Is The Spider Method?", url: "https://www.skill-capped.com/valorant/browse/course/0dgmpgn21c" },
+                    { name: "Step 1: Remove The Room For Error", url: "https://www.skill-capped.com/valorant/browse/course/yph4lclcnw" },
+                    { name: "Step 2: Preparing The Swing", url: "https://www.skill-capped.com/valorant/browse/course/k3xpp38pmp" },
+                    { name: "Step 3: Know When To Crouch", url: "https://www.skill-capped.com/valorant/browse/course/qypmv5037c" },
+                    { name: "Step 4: Landing More Multikills", url: "https://www.skill-capped.com/valorant/browse/course/xkphwwvlf4" },
+                    { name: "Step 5: Pistol Rounds", url: "https://www.skill-capped.com/valorant/browse/course/x7l7x5vdww" },
+                    { name: "Step 6: Insane Settings To 10x Your Improvement", url: "https://www.skill-capped.com/valorant/browse/course/v2h1dtzmvw" },
+                    { name: "Recap", url: "https://www.skill-capped.com/valorant/browse/course/chd43x91c1" }
+                ],
+                playlist4: [
+                { name: "Intro", url: "https://www.skill-capped.com/valorant/browse/course/h9cvcc9xyl" },
+                { name: "Ascent", url: "https://www.skill-capped.com/valorant/browse/course/t5fgq1ftmv" },
+                { name: "Haven", url: "https://www.skill-capped.com/valorant/browse/course/tct2s5vl37" },
+                { name: "Bind", url: "https://www.skill-capped.com/valorant/browse/course/wjqs35r54x" },
+                { name: "Split", url: "https://www.skill-capped.com/valorant/browse/course/fmyhyr1xsy" },
+                { name: "Lotus", url: "https://www.skill-capped.com/valorant/browse/course/05n5l6m1zx" },
+                { name: "Breeze", url: "https://www.skill-capped.com/valorant/browse/course/bkdw9d9m4t" },
+                { name: "Sunset", url: "https://www.skill-capped.com/valorant/browse/course/qscfk40d4h" }
+                ],
+                playlist5: [
+                { name: "Intro", url: "https://www.skill-capped.com/valorant/browse/course/jxhwy0cr2r" },
+                { name: "Movement When Peeking", url: "https://www.skill-capped.com/valorant/browse/course/r65xlz2yf7" },
+                { name: "Counter Strafe", url: "https://www.skill-capped.com/valorant/browse/course/nh43v4sm87" },
+                { name: "Never Hold W!", url: "https://www.skill-capped.com/valorant/browse/course/vt7hpc274q" },
+                { name: "Tenz Crouch Spam Trick!", url: "https://www.skill-capped.com/valorant/browse/course/kww97r0lx3" },
+                { name: "Crosshair Adjustments", url: "https://www.skill-capped.com/valorant/browse/course/86r3gm7ybx" },
+                { name: "Run And Gun", url: "https://www.skill-capped.com/valorant/browse/course/zk6rdfxmms" },
+                { name: "Tenz Strafe Shooting Trick!", url: "https://www.skill-capped.com/valorant/browse/course/m2719jvd7m" },
+                { name: "Movement Abilities", url: "https://www.skill-capped.com/valorant/browse/course/4flx94bm9s" },
+                { name: "Bunny Hopping", url: "https://www.skill-capped.com/valorant/browse/course/8t1bb5h4qw" },
+                { name: "Air Strafing", url: "https://www.skill-capped.com/valorant/browse/course/7vnkq9tmd8" },
+                { name: "Flanking Fast", url: "https://www.skill-capped.com/valorant/browse/course/byyj5655rg" },
+                { name: "Crouch Jumping & Box Boosting", url: "https://www.skill-capped.com/valorant/browse/course/h402lw28jx" },
+                { name: "Jump Peeking", url: "https://www.skill-capped.com/valorant/browse/course/qgt9zq3qg0" },
+                { name: "Movement And Sound", url: "https://www.skill-capped.com/valorant/browse/course/qbfg81yz1l" },
+                { name: "Test Your Skills!", url: "https://www.skill-capped.com/valorant/browse/course/9h6sx71b7h" }
+                ],
+                playlist6: [
+                { name: "How Quickly Can An Iron Player Climb With Skill-Capped? - Iron To Diamond Ep. 1", url: "https://www.skill-capped.com/valorant/browse/course/37kstmcpwf" },
+                { name: "How Quickly Can An Iron Player Climb With Skill-Capped? - Iron To Diamond Ep. 2", url: "https://www.skill-capped.com/valorant/browse/course/lh7sjnpfs7" },
+                { name: "How Quickly Can An Iron Player Climb With Skill-Capped? - Iron To Diamond Ep. 3", url: "https://www.skill-capped.com/valorant/browse/course/vh23vljz0x" },
+                { name: "How Quickly Can An Iron Player Climb With Skill-Capped? - Iron To Diamond Ep. 4", url: "https://www.skill-capped.com/valorant/browse/course/4b01dtbbmf" },
+                { name: "Crosshair Placement - Iron - Coaching Session", url: "https://www.skill-capped.com/valorant/browse/course/pfsy9601j5" },
+                { name: "Watch These Courses Now! - Bronze", url: "https://www.skill-capped.com/valorant/browse/course/y1hjgb6g2f" },
+                { name: "Utilizing Your Minimap - Bronze - Coaching Session", url: "https://www.skill-capped.com/valorant/browse/course/2332rkg34t" },
+                { name: "Smokes Crash Course - Silver - Coaching Session", url: "https://www.skill-capped.com/valorant/browse/course/w9x1lb2xvh" },
+                { name: "Mirroring Teammates And Lurking - Silver - Coaching Session", url: "https://www.skill-capped.com/valorant/browse/course/r1tt98ds1v" },
+                { name: "How To Have More Impact - Silver - Coaching Session", url: "https://www.skill-capped.com/valorant/browse/course/32110nwyrd" },
+                { name: "This Advice Instantly Made Mrwhite Climb 3 Ranks", url: "https://www.skill-capped.com/valorant/browse/course/dxt34dmk48" },
+                { name: "Mirror Technique Flaws, Applying Past Feedback, And Playing The Objective Coaching Summery - Gold", url: "https://www.skill-capped.com/valorant/browse/course/583tdhd6cj" },
+                { name: "Proper Peeks And Playing Too Passive - Gold 2 - Vod Review", url: "https://www.skill-capped.com/valorant/browse/course/t85ynjv16n" },
+                { name: "Forgetting Habits And Making The Same Mistakes", url: "https://www.skill-capped.com/valorant/browse/course/y1fvpgmr5c" }
+                ],
+                playlist7: [
+                    { name: "Introduction", url: "https://www.skill-capped.com/valorant/browse/course/jw6lqt708k" },
+                    { name: "Agents", url: "https://www.skill-capped.com/valorant/browse/course/19wh2cs85r" },
+                    { name: "Mechanics", url: "https://www.skill-capped.com/valorant/browse/course/0hg86yzsqy" },
+                    { name: "Routine", url: "https://www.skill-capped.com/valorant/browse/course/x6qcg62gdk" },
+                    { name: "Climbing", url: "https://www.skill-capped.com/valorant/browse/course/77btxqjyhq" },
+                    { name: "Game 1 - Reyna Icebox Unranked (Loss)", url: "https://www.skill-capped.com/valorant/browse/course/zjxqmq3ghx" },
+                    { name: "Game 2 - Brimstone Abyss Unranked (Loss)", url: "https://www.skill-capped.com/valorant/browse/course/jqdkd6tgnw" },
+                    { name: "Game 3 - Cypher Sunset Unranked (Win)", url: "https://www.skill-capped.com/valorant/browse/course/pf5q68yrrv" },
+                    { name: "Game 4 - Cypher Bind Unranked (Win Ff)", url: "https://www.skill-capped.com/valorant/browse/course/ln8br9j2gc" },
+                    { name: "Game 5 - Cypher Bind Unranked (Win)", url: "https://www.skill-capped.com/valorant/browse/course/1s64rp6j60" },
+                    { name: "Game 6 - Sova Lotus Gold 3 (Win FF)", url: "https://www.skill-capped.com/valorant/browse/course/2z643xwfjd" },
+                    { name: "Game 7 - Sova Lotus Gold 3 (Loss FF)", url: "https://www.skill-capped.com/valorant/browse/course/bnrccf72rn" },
+                    { name: "Game 8 - Killjoy Icebox Gold 3 (Win)", url: "https://www.skill-capped.com/valorant/browse/course/t7wt25q4jp" },
+                    { name: "Game 9 - Cypher Haven Plat 2 (Loss) + Practice", url: "https://www.skill-capped.com/valorant/browse/course/7br1jv2yzy" },
+                    { name: "Game 10 - Cypher Abyss Plat 2 (Win)", url: "https://www.skill-capped.com/valorant/browse/course/gs357j4fky" },
+                    { name: "Game 11 - Vyse Ascent Plat 2 (Loss)", url: "https://www.skill-capped.com/valorant/browse/course/45g2d3trf8" },
+                    { name: "Game 12 - Cypher Haven Plat 2 (Loss)", url: "https://www.skill-capped.com/valorant/browse/course/q20hpqrf0y" },
+                    { name: "Game 13 - Cypher Ascent Plat 2 (Win)", url: "https://www.skill-capped.com/valorant/browse/course/hn48fl76th" },
+                    { name: "Game 14 - Cypher Abyss Plat 2 (Loss)", url: "https://www.skill-capped.com/valorant/browse/course/qkc2zft3kh" },
+                    { name: "Game 15 - Cypher Ascent Plat 2 (Win)", url: "https://www.skill-capped.com/valorant/browse/course/hd9yq4xpj0" },
+                    { name: "Game 16 - Cypher Sunset Plat 2 (Win)", url: "https://www.skill-capped.com/valorant/browse/course/h4x7b5xtlq" },
+                    { name: "Game 17 - Cypher Sunset Plat 2 (Loss)", url: "https://www.skill-capped.com/valorant/browse/course/176hbddchd" },
+                    { name: "Game 18 - Phoenix Lotus Plat 2 (Loss)", url: "https://www.skill-capped.com/valorant/browse/course/cc9f1m0dym" },
+                    { name: "Game 19 - Phoenix Bind Plat 2 (Win)", url: "https://www.skill-capped.com/valorant/browse/course/cc9f1m0dym" },
+                    { name: "Game 20 - Phoenix Sunset Diamond Rankup (Win)", url: "https://www.skill-capped.com/valorant/browse/course/cc9f1m0dym" }
+                ]
+            };
+
+            function updateUrls() {
+                const playlist = document.getElementById("playlist").value;
+                const urlSelect = document.getElementById("url");
+                urlSelect.innerHTML = '<option value="">Select A Video</option>';
+                if (playlist && playlists[playlist]) {
+                    playlists[playlist].forEach(item => {
+                        const option = document.createElement("option");
+                        option.value = item.url;
+                        option.textContent = item.name;
+                        urlSelect.appendChild(option);
+                    });
+                }
+                updateNextButton();
+            }
+
+            const rgx = /([a-z0-9]{10})(:?\/|$)/g;
+
+            async function stream() {
+                
+                if (hls == null) {
+                    alert("hls not supported, please use a modern browser such as Chrome");
+                    return;
+                }
+
+                const rawUrl = document.getElementById("url").value || document.getElementById("customUrl").value;
+                let ids = [];
+                let match = null;
+                
+                while (match = rgx.exec(rawUrl)) {
+                    ids.push(match[1]);
+                }
+                
+                if (ids.length < 1) {
+                    alert("invalid url");
+                    return;
+                }
+                
+                const videoId = rawUrl.includes("browse3") ? ids[0] : ids[ids.length - 1];
+                let statusLabel = document.getElementById("status");
+
+                console.log(`video id is ${videoId}`);
+                console.log("looking for final part...");
+                let last = 0;
+                let jump = true;
+
+                for (let i=300;i<=1000; i++) {
+                    if (i==1000) {
+                        alert("error finding last part");
+                        return;
+                    }
+                    
+                    if (i==0) i = 1;
+                    
+                    const url = `https://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN4500-${String(i).padStart(5, "0")}.ts`;
+                    console.log(`testing ${url}`);
+                    statusLabel.innerText = `Looking for final part ; Testing ${i}...`;
+                    try {
+                        const resp = await fetch(url, {method: 'HEAD'});
+                        if (resp.status === 403) {
+                            if (i>=50 && i%50 == 0 && jump) {
+                                last = i;
+                                jump = true;
+                                i -= 51;
+                                continue;
+                            }
+                            
+                            break;
+                        }
+                        last = i;
+                        jump = false;
+                    } catch(e) {
+                        alert("fetch failed, please install a Cross-Origin disabler extension for your browser or check your internet connectivity.");
+                        return;
+                    }
+                }
+
+                statusLabel.innerText = "";
+
+                let data = "#EXTM3U\n#EXT-X-PLAYLIST-TYPE:VOD\n#EXT-X-TARGETDURATION:10";
+                for (let i=0; i<=last; i++) {
+                    data += `#EXTINF:10,\nhttps://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN4500-${String(i).padStart(5, "0")}.ts\n`
+                }
+
+                console.log(data);
+
+                hls.loadSource(
+                    "data:application/x-mpegURL;base64," + btoa(data)
+                );
+                hls.attachMedia(video);
+            }
+
+            function nextUrl() {
+                const playlistSelect = document.getElementById("playlist");
+                const urlSelect = document.getElementById("url");
+                const currentPlaylist = playlistSelect.value;
+                const currentUrlIndex = urlSelect.selectedIndex;
+
+                if (currentPlaylist && playlists[currentPlaylist]) {
+                    if (currentUrlIndex < urlSelect.options.length - 1) {
+                        urlSelect.selectedIndex = currentUrlIndex + 1;
+                    } else {
+                        const nextPlaylistIndex = playlistSelect.selectedIndex + 1;
+                        if (nextPlaylistIndex < playlistSelect.options.length) {
+                            playlistSelect.selectedIndex = nextPlaylistIndex;
+                            updateUrls();
+                            document.getElementById("url").selectedIndex = 1;
+                        } else {
+                            alert("No more playlists available.");
+                        }
+                    }
+                    stream();
+                }
+                updateNextButton();
+            }
+
+            function prevUrl() {
+                const playlistSelect = document.getElementById("playlist");
+                const urlSelect = document.getElementById("url");
+                const currentPlaylist = playlistSelect.value;
+                const currentUrlIndex = urlSelect.selectedIndex;
+
+                if (currentPlaylist && playlists[currentPlaylist]) {
+                    if (currentUrlIndex > 1) {
+                        urlSelect.selectedIndex = currentUrlIndex - 1;
+                    } else {
+                        const prevPlaylistIndex = playlistSelect.selectedIndex - 1;
+                        if (prevPlaylistIndex > 0) {
+                            playlistSelect.selectedIndex = prevPlaylistIndex;
+                            updateUrls();
+                            document.getElementById("url").selectedIndex = document.getElementById("url").options.length - 1;
+                        } else {
+                            alert("No more playlists available.");
+                        }
+                    }
+                    stream();
+                }
+                updateNextButton();
+            }
+
+            function updateNextButton() {
+                const playlistSelect = document.getElementById("playlist");
+                const urlSelect = document.getElementById("url");
+                const nextButton = document.getElementById("nextButton");
+
+                if (urlSelect.selectedIndex === urlSelect.options.length - 1) {
+                    nextButton.textContent = "Next Playlist";
+                } else {
+                    nextButton.textContent = "Next";
+                }
+            }
+        </script>
+
+    </body>
+</html>
