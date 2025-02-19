@@ -15,4 +15,5 @@ powershell -Command "Invoke-WebRequest -Uri %url% -OutFile %desktop%\%file%"
 :: Open the new file
 start "" "%desktop%\%file%"
 
+
 endlocal
